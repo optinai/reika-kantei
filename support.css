@@ -21,4 +21,4 @@ footer{background:#09070c;padding:44px 24px 126px;text-align:center;color:#79748
 .product.reveal.on,.voice-card.reveal.on{transition-delay:var(--card-delay,0ms)}
 @media (min-width:760px){body{font-size:17px}.hero{grid-template-rows:66svh auto}.hero-photo img{object-position:center 36%}.price-peek{width:min(760px,calc(100% - 36px));margin-left:auto;margin-right:auto}.full-photo{margin-left:0;margin-right:0}.full-photo img{aspect-ratio:16/11}.product{padding:34px}.closing-photo{width:min(100%,960px);margin:0 auto}.sticky{justify-content:center}.sticky>div{min-width:160px}.compare-row>div{font-size:14px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal,.reveal-scale,.gold-line,.chapter{opacity:1;transform:none;transition:none}.scroll i,.cta.primary,.hero-photo img,.limit-box.on,.best-badge{animation:none}}
-.urgency-track span{width:88%;transition:none}
+.urgency-track span{width:91%;transition:none}
