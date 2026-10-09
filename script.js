@@ -75,9 +75,6 @@
     const countdown = document.querySelector('.countdown');
     const expired = document.querySelector('.countdown-expired');
     const countdownMinis = document.querySelectorAll('[data-countdown-mini]');
-    const urgencyBar = document.querySelector('[data-urgency-bar]');
-    const urgencyLabel = document.querySelector('[data-urgency-label]');
-    const totalDuration = hours * 60 * 60 * 1000;
     const pad = value => String(value).padStart(2, '0');
     let timerId;
 
@@ -85,8 +82,6 @@
       countdown?.classList.add('expired');
       expired?.classList.add('on');
       countdownMinis.forEach(mini => { mini.textContent = 'お申し込み受付中'; });
-      if (urgencyBar) urgencyBar.style.width = '100%';
-      if (urgencyLabel) urgencyLabel.textContent = 'ご案内期間終了';
     };
 
     const updateCountdown = () => {
@@ -100,7 +95,6 @@
       const hoursLeft = Math.floor((remaining % 86400000) / 3600000);
       const minutes = Math.floor((remaining % 3600000) / 60000);
       const seconds = Math.floor((remaining % 60000) / 1000);
-      const elapsedRatio = Math.min(1, Math.max(0, (totalDuration - remaining) / totalDuration));
       const values = { d: String(days), h: pad(hoursLeft), m: pad(minutes), s: pad(seconds) };
       Object.entries(values).forEach(([part, value]) => {
         const target = countdown?.querySelector(`[data-${part}]`);
@@ -109,8 +103,6 @@
       countdownMinis.forEach(mini => {
         mini.textContent = `残り${days > 0 ? `${days}日 ` : ''}${pad(hoursLeft)}:${pad(minutes)}:${pad(seconds)}`;
       });
-      if (urgencyBar) urgencyBar.style.width = `${Math.max(8, elapsedRatio * 100)}%`;
-      if (urgencyLabel) urgencyLabel.textContent = remaining <= 86400000 ? '残りわずか' : 'ご案内中';
     };
 
     updateCountdown();
