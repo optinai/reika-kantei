@@ -61,16 +61,23 @@
 
   const deadlineKey = document.body.dataset.deadlineKey;
   if (deadlineKey) {
-    const hours = Number.parseFloat(document.body.dataset.deadlineHours || '72');
-    const storageKey = `lp_deadline_${deadlineKey}`;
-    let deadline = 0;
+    const periodDays = Number(document.body.dataset.deadlineDays);
+    const storageKey = `lp_first_visit_${deadlineKey}`;
+    let openedAt = Date.now();
     try {
-      deadline = Number.parseInt(localStorage.getItem(storageKey) || '0', 10);
+      const saved = Number(localStorage.getItem(storageKey));
+      if (Number.isFinite(saved) && saved > 0) openedAt = saved;
+      else {
+        // 旧版は72時間後の期限を保存していたため、初回閲覧時刻を復元する。
+        const previousDeadline = Number(localStorage.getItem(`lp_deadline_${deadlineKey}`));
+        if (Number.isFinite(previousDeadline) && previousDeadline > 72 * 3600000) openedAt = previousDeadline - 72 * 3600000;
+        localStorage.setItem(storageKey, String(openedAt));
+      }
     } catch (_) {}
-    if (!deadline || Number.isNaN(deadline)) {
-      deadline = Date.now() + hours * 60 * 60 * 1000;
-      try { localStorage.setItem(storageKey, String(deadline)); } catch (_) {}
-    }
+    const end = new Date(openedAt);
+    end.setDate(end.getDate() + periodDays);
+    end.setHours(24, 0, 0, 0);
+    const deadline = end.getTime();
 
     const countdown = document.querySelector('.countdown');
     const expired = document.querySelector('.countdown-expired');
